@@ -7,6 +7,13 @@ class API < Grape::API
   format :json
   content_type :json, 'application/json'
 
+  rescue_from Grape::Exceptions::ValidationErrors do |e|
+    rack_response({
+      status: e.status,
+      error_msg: e.message
+    }.to_json, 400)
+  end
+
   rescue_from ValidationError do |e|
     error!({ error: { code: '400', fatal: false, message: e.message } }, 400)
   end
@@ -24,5 +31,6 @@ class API < Grape::API
     error!({ error: { code: '500', fatal: true, message: e.message } }, 500)
   end
 
+  mount Login
   mount API::V1::Base
 end

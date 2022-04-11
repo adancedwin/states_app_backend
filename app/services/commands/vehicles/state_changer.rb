@@ -5,8 +5,8 @@ module Commands
     class StateChanger < Commands::Base
       def call(params)
         validate_params(params)
-        record_id = change_state!(params).id
-        return_success(json_id(record_id))
+        change_state!(params)
+        return_success(json_id(params[:id]))
       end
 
       private
@@ -21,7 +21,7 @@ module Commands
 
       def change_state!(params)
         DynamicStateMachine.new(Vehicle.find(params[:id]))
-                           .transition!(params[:new_state_index])
+                           .transition!(params[:vehicle][:new_state_index])
       end
     end
   end

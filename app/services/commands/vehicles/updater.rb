@@ -5,8 +5,8 @@ module Commands
     class Updater < Commands::Base
       def call(params)
         validate_params(params)
-        record_id = update!(params).id
-        return_success(json_id(record_id))
+        update!(params)
+        return_success(json_id(params[:id]))
       end
 
       private
@@ -21,6 +21,7 @@ module Commands
 
       def update!(params)
         Vehicle.update!(
+          id: params[:id],
           states_data: params[:states_data],
           current_state_index: params[:current_state_index]
         )

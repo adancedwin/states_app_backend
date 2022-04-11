@@ -1,9 +1,13 @@
-class BasePresenter
-  def self.call(*args)
-    new(*args).call
-  end
+# frozen_string_literal: true
 
-  def call
-    raise NoMethodError
+module Presenters
+  class BasePresenter
+    def self.call(*args)
+      new(*args).call
+    end
+
+    def call
+      raise NoMethodError
+    end
   end
 end

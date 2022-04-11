@@ -10,9 +10,11 @@ class DynamicStateMachine
 
   def transition!(to_state)
     states_data = record.states_data
+    halt if states_data.empty?
+
     next_state_index = record.current_state_index + 1
 
-    halt unless to_state <= states_data.last && to_state == next_state_index
+    halt unless to_state <= states_data.last && to_state != next_state_index
 
     record.update!(current_state_index: to_state)
   end
